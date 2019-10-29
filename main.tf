@@ -29,7 +29,7 @@ resource "aws_instance" "default" {
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
   source_dest_check      = false
   instance_type          = "${var.instance_type}"
-  subnet_id              = "${aws_subnet.main.id}
+  subnet_id              = "${aws_subnet.main.id}"
 }
 
 
