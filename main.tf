@@ -12,6 +12,15 @@ provider "aws" {
   region = "eu-west-2"
 }
 
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_subnet" "main" {
+  vpc_id     = "${aws_vpc.main.id}"
+  cidr_block = "10.0.1.0/24"
+
+}
 # Create EC2 instance
 resource "aws_instance" "default" {
   ami                    = "${var.ami}"
@@ -20,12 +29,10 @@ resource "aws_instance" "default" {
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
   source_dest_check      = false
   instance_type          = "${var.instance_type}"
-
+  subnet_id              = "${aws_subnet.main.id}
 }
 
-resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
-}
+
 
 # Create Security Group for EC2
 resource "aws_security_group" "default" {
